@@ -71,19 +71,6 @@ $html = new Html();
 	  }
 
 
-
-	/* Load Css files function example
-	* 	$data = array(
-	* 		"files/style"=>"css",
-	* 		"files/style2"=>"css"
-	* 	);
-	*
-	* loadCss ($data, true)
-	* 
-	 * if you will use page speed criteria, use true,
-	 * but also you have to apply for the end of the page, LoadJs($data,true)
-	*/
-
 	public function loadCss($files = array(), $par = false) {
 
 		echo ($par === true ? "\r\n".'<noscript>' . "\r\n" : '');
@@ -93,7 +80,7 @@ $html = new Html();
 		foreach($files as $file) {
 			
 			if (file_exists($file) ) {
-				echo '<link src="'.$file.'" type="text/css" />' . "\r\n";
+				echo '<link href="'.$file.'" type="text/css" />' . "\r\n";
 			}
 		
 		}
@@ -103,17 +90,6 @@ $html = new Html();
 	}
 
 
-	/* Load Css files function example
-	* 	$data = array(
-	* 		"files/style"=>"css",
-	* 		"files/style2"=>"css"
-	* 	);
-	*
-	* loadCss ($data, true)
-	* 
-	 * if you will use page speed criteria, use true,
-	 * but also you have to apply for the end of the page, LoadJs($data,true)
-	*/
 
 	public function loadJs($files = array(), $par = false ) {
 
@@ -124,7 +100,7 @@ $html = new Html();
 		foreach($files as $file) {
 			
 			if (file_exists($file) ) {
-				echo '<script src="'.$file.'" type="text/javascript"></script>' . "\r\n";
+				echo '<script src="'.$file.'"></script>' . "\r\n";
 			} else {
 				echo '<strong>'. $file . '</strong> not exist'."\r\n";
 			}
@@ -189,44 +165,48 @@ $html = new Html();
 	}
 
 
-	public function meta($data = array(), $og = false, $google = false ) {
+	  public function meta($data = array(), $og = false, $google = false, $compressed = false ) {
 
-		$jsonit = json_encode($data);
-		$mt 	= json_decode($jsonit);
+    $jsonit = json_encode($data);
+    $mt     = json_decode($jsonit);
+    $enter  = ($compressed === true ? "\r\n" : "" );
 
-			echo '<meta http-equiv="content-type" content="text/html; charset=utf-8" />' . "\r\n";
-			echo '<meta http-equiv="cache-control" content="'.$mt->cache.'">' . "\r\n";
-			echo '<meta http-equiv="content-language" content="'.$mt->langcode.'">' . "\r\n";
-			echo '<meta http-equiv="revisit-after" content="'.$mt->revisitafter.'">' . "\r\n";
-			echo '<meta name="contact" content="'.$mt->email.'" />' . "\r\n";
-			echo '<meta name="author" content="'.$mt->author.'" />' . "\r\n";
-      		echo '<meta name="copyright" content="'.$mt->sitename.'">' . "\r\n";
+      echo '<meta content="'.$mt->content.'" name="viewport">' . $enter;
+      echo '<meta name="content-type" content="text/html; charset=utf-8" />' . $enter;
+      echo '<meta name="cache-control" content="'.$mt->cache.'">' . $enter;
+      echo '<meta name="content-language" content="'.$mt->langcode.'">' . $enter;
+      echo '<meta name="revisit-after" content="'.$mt->revisitafter.'">' . $enter;
+      echo '<meta name="contact" content="'.$mt->email.'" />' . $enter;
+      echo '<meta name="author" content="'.$mt->author.'" />' . $enter;
+      echo '<meta name="repply-to" content="'.$mt->email.'" />' . $enter;
+      echo '<meta name="copyright" content="'.$mt->sitename.'">' . $enter;
+      echo '<meta name="city" content="Grodno">' . $enter;
+      echo '<meta name="country" content="Belarus">' . $enter;
 
-		if($og === true) {
-			echo '<!-- OG markup for Facebook and Google Plus -->' . "\r\n";
-			echo '<meta property="og:locale" content="'.$mt->language.'" />' . "\r\n";
-			echo '<meta property="og:type" content="'.$mt->type.'" />' . "\r\n";
-			echo '<meta property="og:title" content="'.$mt->title.'" />' . "\r\n";
-			echo '<meta property="og:description" content="'.$mt->desc.'" />' . "\r\n";
-			echo '<meta property="og:url" content="'.$mt->url.'" />' . "\r\n";
-			echo '<meta property="og:site_name" content="'.$mt->title.'" />' . "\r\n";
-			echo '<meta property="og:image" content="'.$mt->image.'" />' . "\r\n";
-		}
+    if($og === true) {
+      echo '<!-- OG markup for Facebook and Google Plus -->' . $enter;
+      echo '<meta property="og:locale" content="'.$mt->language.'" />' . $enter;
+      echo '<meta property="og:type" content="'.$mt->type.'" />' . $enter;
+      echo '<meta property="og:title" content="'.$mt->title.'" />' . $enter;
+      echo '<meta property="og:description" content="'.$mt->desc.'" />' . $enter;
+      echo '<meta property="og:url" content="'.$mt->url.'" />' . $enter;
+      echo '<meta property="og:site_name" content="'.$mt->title.'" />' . $enter;
+      echo '<meta property="og:image" content="'.$mt->image.'" />' . $enter;
+    }
 
-		if($google === true) {
-			echo '<!-- Schema.org markup for Google+ -->' . "\r\n";
-			echo '<meta itemprop="name" content="'.$mt->title.'">' . "\r\n";
-			echo '<meta itemprop="description" content="'.$mt->desc.'">' . "\r\n";
-			echo '<meta itemprop="image" content="'.$mt->image.'">' . "\r\n";
+    if($google === true) {
+      echo '<!-- Schema.org markup for Google+ -->' . $enter;
 
-			echo '<meta name="googlebot" content="'.$mt->googlebot.'" />' . "\r\n";
-			echo '<link href="'.$mt->gplus.'" rel="author" />' . "\r\n";
-			echo '<meta name="Robots" content="'.$mt->robots.'" />' . "\r\n";
-			echo '<meta name="rating" content="General" />' . "\r\n";
-			echo '<meta name="distribution" content="global" />' . "\r\n";
-		}
-			echo '<link rel="canonical" href="'.$mt->url.'" />'. "\r\n";
-	}
+      echo '<meta name="googlebot" content="'.$mt->googlebot.'" />' . $enter;
+      echo '<link href="'.$mt->gplus.'" rel="author" />' . $enter;
+      echo '<meta name="Robots" content="'.$mt->robots.'" />' . $enter;
+      echo '<meta name="rating" content="general" />' . $enter;
+      echo '<meta name="rating" content="safe for kids" />' . $enter;
+      echo '<meta name="distribution" content="global" />' . $enter;
+    }
+      echo '<link rel="canonical" href="'.$mt->url.'" />'. $enter;
+  }
+
 
 
 }
