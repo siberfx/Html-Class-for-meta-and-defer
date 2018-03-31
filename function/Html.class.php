@@ -22,7 +22,7 @@ Class Html {
 
 
   public function https($var = false) {
-    if($var === true) echo "<meta http-equiv='Content-Security-Policy' content='upgrade-insecure-requests'>". "\n";
+    if($var === true) echo "<meta name='Content-Security-Policy' content='upgrade-insecure-requests'>". "\n";
 
   }
 
@@ -51,25 +51,12 @@ Class Html {
     }
 
 
-
-  /* Load Css files function example
-  *   $data = array(
-  *     "files/style"=>"css",
-  *     "files/style2"=>"css"
-  *   );
-  *
-  * loadCss ($data, true)
-  * 
-   * if you will use page speed criteria, use true,
-   * but also you have to apply for the end of the page, LoadJs($data,true)
-  */
-
   public function loadCss(&$files = array(), $par = false) {
 
     echo ($par === true ? '<noscript>' . "\r\n" : '');
 
     foreach($files as $file) {
-       echo '<link src="'.$file.'" type="text/css" />' . "\r\n";
+       echo '<link href="'.$file.'" type="text/css" />' . "\r\n";
     }
 
     echo ($par === true ? '</noscript>' . "\r\n" : '');
@@ -77,25 +64,13 @@ Class Html {
   }
 
 
-  /* Load Css files function example
-  *   $data = array(
-  *     "files/style"=>"css",
-  *     "files/style2"=>"css"
-  *   );
-  *
-  * loadCss ($data, true)
-  * 
-   * if you will use page speed criteria, use true,
-   * but also you have to apply for the end of the page, LoadJs($data,true)
-  */
-
   public function loadJs($files = array(), $par = false ) {
 
     $ifTrue = '';
     $data = '';
 
     foreach($files as $file) {
-        echo '<script src="'.$file.'" type="text/javascript"></script>' . "\r\n";
+        echo '<script src="'.$file.'"></script>' . "\r\n";
     }
 
     if ($par === true) {
@@ -153,20 +128,23 @@ Class Html {
   }
 
 
-  public function meta($data = array(), $og = false, $google = false, $compressed = false ) {
+    public function meta($data = array(), $og = false, $google = false, $compressed = false ) {
 
     $jsonit = json_encode($data);
     $mt     = json_decode($jsonit);
     $enter  = ($compressed === true ? "\r\n" : "" );
 
-      echo '  <meta content="'.$mt->content.'" name="viewport">' . $enter;
-      echo '<meta http-equiv="content-type" content="text/html; charset=utf-8" />' . $enter;
-      echo '<meta http-equiv="cache-control" content="'.$mt->cache.'">' . $enter;
-      echo '<meta http-equiv="content-language" content="'.$mt->langcode.'">' . $enter;
-      echo '<meta http-equiv="revisit-after" content="'.$mt->revisitafter.'">' . $enter;
+      echo '<meta content="'.$mt->content.'" name="viewport">' . $enter;
+      echo '<meta name="content-type" content="text/html; charset=utf-8" />' . $enter;
+      echo '<meta name="cache-control" content="'.$mt->cache.'">' . $enter;
+      echo '<meta name="content-language" content="'.$mt->langcode.'">' . $enter;
+      echo '<meta name="revisit-after" content="'.$mt->revisitafter.'">' . $enter;
       echo '<meta name="contact" content="'.$mt->email.'" />' . $enter;
       echo '<meta name="author" content="'.$mt->author.'" />' . $enter;
+      echo '<meta name="repply-to" content="'.$mt->email.'" />' . $enter;
       echo '<meta name="copyright" content="'.$mt->sitename.'">' . $enter;
+      echo '<meta name="city" content="Grodno">' . $enter;
+      echo '<meta name="country" content="Belarus">' . $enter;
 
     if($og === true) {
       echo '<!-- OG markup for Facebook and Google Plus -->' . $enter;
@@ -181,14 +159,12 @@ Class Html {
 
     if($google === true) {
       echo '<!-- Schema.org markup for Google+ -->' . $enter;
-      echo '<meta itemprop="name" content="'.$mt->title.'">' . $enter;
-      echo '<meta itemprop="description" content="'.$mt->desc.'">' . $enter;
-      echo '<meta itemprop="image" content="'.$mt->image.'">' . $enter;
 
       echo '<meta name="googlebot" content="'.$mt->googlebot.'" />' . $enter;
       echo '<link href="'.$mt->gplus.'" rel="author" />' . $enter;
       echo '<meta name="Robots" content="'.$mt->robots.'" />' . $enter;
-      echo '<meta name="rating" content="General" />' . $enter;
+      echo '<meta name="rating" content="general" />' . $enter;
+      echo '<meta name="rating" content="safe for kids" />' . $enter;
       echo '<meta name="distribution" content="global" />' . $enter;
     }
       echo '<link rel="canonical" href="'.$mt->url.'" />'. $enter;
